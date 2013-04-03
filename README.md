@@ -7,3 +7,7 @@ A JavaScript validator for DOM elements with a jQuery wrapper
     $('#element').validate();
     $('#element').validate('validateAsync');
     $('#element').validate('clearValidation');
+
+# Examples
+
+See demo/validator.html
