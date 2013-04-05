@@ -52,7 +52,7 @@
         },
         checkAsync: function(isValid, element, rule, callBack) {
             if (rule.pattern) {
-                var elementValid = methods.checkValue(element.value, rule.pattern);
+                var elementValid = methods.matchValue(element.value, rule.pattern);
                 if (!elementValid) {
                     isValid = false;
                 }
@@ -90,7 +90,7 @@
         },
         check: function(value, rule) {
             if (rule.pattern) {
-                return methods.checkValue(value, rule.pattern);
+                return methods.matchValue(value, rule.pattern);
             } else if (rule.func) {
                 return rule.func(value);
             } else {

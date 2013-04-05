@@ -59,9 +59,14 @@ function Validator() {
     ];
 }
 
+Validator.prototype.validate = function (value, ruleName) {
+    var rule = this.getRule(ruleName);
+    return this.check(value, rule);
+};
+
 Validator.prototype.check = function (value, rule) {
     if (rule.pattern) {
-        return this.checkValue(value, rule.pattern);
+        return this.matchValue(value, rule.pattern);
     } else if (rule.func) {
         return rule.func(value);
     } else {
@@ -69,9 +74,9 @@ Validator.prototype.check = function (value, rule) {
     }
 };
 
-Validator.prototype.checkValue = function (value, pattern) {
+Validator.prototype.matchValue = function (value, pattern) {
     //Will fail on no match || no value
-    return !(value === undefined || value.length == 0 || value.match(pattern) === undefined);
+    return !(value === undefined || value.length === 0 || typeof value.match(pattern) === "undefined" || value.match(pattern) === null);
 };
 
 Validator.prototype.getRule = function (name) {

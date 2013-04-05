@@ -8,7 +8,7 @@ describe('Validator', function () {
 
     before(function () {
         validator = new Validator();
-    })
+    });
 
     it('should validate required correctly', function () {
         checkValidation('some value', 'required', true);
@@ -165,14 +165,15 @@ describe('Validator', function () {
         checkValidation('foobar', 'foobar', true);
     });
 
-
     function checkValidation(value, ruleName, expected) {
         var rule = validator.getRule(ruleName);
         var result = validator.check(value, rule);
-        if (expected == true) {
+        if (expected) {
             result.should.be.true;
         } else {
             result.should.be.false;
         }
     }
 });
+
+
