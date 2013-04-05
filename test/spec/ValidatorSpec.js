@@ -1,6 +1,6 @@
 var should = require('should');
 
-Validator = require('../../validator.js').Validator;
+var Validator = require('../../index.js');
 
 describe('Validator', function () {
 

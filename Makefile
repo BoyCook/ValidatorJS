@@ -9,7 +9,7 @@ test: test-mocha
 test-ci:
 	$(MAKE) test-mocha REPORTER=xUnit > $(XML_FILE)
 
-test-all: clean test-ci test-cov
+test-all: setup clean test-ci test-cov
 
 test-ui: start
 	casperjs test test/ui
@@ -21,10 +21,13 @@ test-mocha:
 		$(TESTS)
 
 test-cov: lib-cov
-	@HFS_COV=1 $(MAKE) test-mocha REPORTER=html-cov > $(HTML_FILE)
+	@VAL_COV=1 $(MAKE) test-mocha REPORTER=html-cov > $(HTML_FILE)
 
 lib-cov:
 	jscoverage lib lib-cov
+
+setup:
+	mkdir -p reports
 
 clean:
 	rm -f reports/*
