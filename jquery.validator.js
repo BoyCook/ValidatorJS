@@ -52,7 +52,7 @@
         },
         checkAsync: function(isValid, element, rule, callBack) {
             if (rule.pattern) {
-                var elementValid = methods.matchValue(element.value, rule.pattern);
+                var elementValid = validator.matchValue(element.value, rule.pattern);
                 if (!elementValid) {
                     isValid = false;
                 }
@@ -90,7 +90,7 @@
         },
         check: function(value, rule) {
             if (rule.pattern) {
-                return methods.matchValue(value, rule.pattern);
+                return validator.matchValue(value, rule.pattern);
             } else if (rule.func) {
                 return rule.func(value);
             } else {
@@ -99,25 +99,30 @@
         },
         getRuleForElement: function(elem) {
             var cssClass = 'required';
-            var classes = [];
-            var splitNewLine = elem.className.split('\n');
-
-            $(splitNewLine).each(function() {
-                var line = this.split(' ');
-                $(line).each(function() {
-                    if (this.trim() != '') {
-                        classes.push(this);
-                    }
-                });
-            });
-
+            var classes = this.getClasses(elem.className.split('\n'));
             for (var i = 0; i < classes.length; i++) {
                 if (classes[i].indexOf('validate-') > -1) {
                     cssClass = classes[i];
                 }
             }
-
             return validator.getRule(cssClass);
+        },
+        getClasses: function(classNames) {
+            var classes = [];
+            for (var i = 0, len = classNames.length; i < len; i++) {
+                classes = classes.concat(this.getClassesFromClass(classNames[i].split(' ')));
+            }
+            return classes;
+        },
+        getClassesFromClass: function(classNames) {
+            var classes = [];
+            for (var i = 0, len = classNames.length; i < len; i++) {
+                var clazz = classNames[i];
+                if (clazz.trim() != '') {
+                    classes.push(clazz);
+                }
+            }
+            return classes;
         },
         invalidate: function(element, rule) {
             var label = $("<label for=\"" + element.id + "\" generated=\"true\" class=\"" + rule.errorClass + "\">" + rule.errorMessage + "</label>");
@@ -139,7 +144,6 @@
             return validator.addRules(rules)
         }
     };
-
 
     $.fn.validate = function(method) {
         if (methods[method]) {
