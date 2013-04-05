@@ -166,8 +166,7 @@ describe('Validator', function () {
     });
 
     function checkValidation(value, ruleName, expected) {
-        var rule = validator.getRule(ruleName);
-        var result = validator.check(value, rule);
+        var result = validator.validate(value, ruleName);
         if (expected) {
             result.should.be.true;
         } else {
